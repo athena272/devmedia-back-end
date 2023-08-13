@@ -1,11 +1,11 @@
 import express from 'express'
-import { search, searchByName, searchById } from './services/service.js'
+import { searchUFs, searchByName, searchById } from './services/service.js'
 
 const app = express()
 
 app.get('/ufs', (req, res) => {
     const ufName = req.query.search
-    const result = ufName ? searchByName(ufName) : search()
+    const result = ufName ? searchByName(ufName) : searchUFs()
 
     if (result.length > 0) {
         res.json(result)
@@ -29,8 +29,6 @@ app.get('/ufs/:id', (req, res) => {
         res.status(404).send({ 'error': errorMessage })
     }
 })
-
-
 
 app.listen(8080, () => {
     console.log('🔥 Server started at port 8080 🔥')
