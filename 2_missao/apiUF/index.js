@@ -1,19 +1,15 @@
 import express from 'express'
-import colecaoUf from './data/data.js'
+import { search, searchByName, searchById } from './services/service.js'
 
 const app = express()
 
-const searchName = (ufName) => {
-    return colecaoUf.filter(uf => uf.nome.toLowerCase().includes(ufName.toLowerCase()))
-}
-
 app.get('/ufs', (req, res) => {
-    const ufName = req.query.search 
-    const result = ufName ? searchName(ufName) : colecaoUf
+    const ufName = req.query.search
+    const result = ufName ? searchByName(ufName) : search()
 
     if (result.length > 0) {
         res.json(result)
-    } else {    
+    } else {
         res.status(404).send({ 'error': `No UF find with the name ${ufName}` })
     }
 })
@@ -24,11 +20,7 @@ app.get('/ufs/:id', (req, res) => {
     let errorMessage = 'Invalid request'
 
     if (!(isNaN(idUF))) {
-        uf = colecaoUf.find(uf => uf.id === idUF)
-
-        if (!uf) {
-            errorMessage = 'UF not found'
-        }
+        uf = searchById(idUF)
     }
 
     if (uf) {
