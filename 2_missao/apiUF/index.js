@@ -15,18 +15,15 @@ app.get('/ufs', (req, res) => {
 })
 
 app.get('/ufs/:id', (req, res) => {
-    const idUF = parseInt(req.params.id)
-    let uf
-    let errorMessage = 'Invalid request'
-
-    if (!(isNaN(idUF))) {
-        uf = searchById(idUF)
-    }
+    const ufId = parseInt(req.params.id)
+    const uf = searchById(req.params.id)
 
     if (uf) {
         res.json(uf)
+    } else if (isNaN(ufId)) {
+        res.status(404).send({ 'error': 'Bad/Invalid Request' })
     } else {
-        res.status(404).send({ 'error': errorMessage })
+        res.status(404).send({ 'error': `Not UF found with this ID ${ufId}` })
     }
 })
 
