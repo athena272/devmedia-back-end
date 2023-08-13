@@ -1,6 +1,6 @@
 import colecaoUf from '../data/data.js'
 
-function search() {
+function searchUFs() {
     return colecaoUf
 }
 
@@ -12,4 +12,4 @@ function searchById(ufId) {
     return colecaoUf.find(uf => uf.id === ufId)
 }
 
-export { search, searchByName, searchById }
+export { searchUFs, searchByName, searchById }
