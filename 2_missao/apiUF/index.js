@@ -3,8 +3,8 @@ import colecaoUf from './data/data.js'
 
 const app = express()
 
-app.get('/ufs', (req, resizeBy) => {
-    resizeBy.json(colecaoUf)
+app.get('/ufs', (req, res) => {
+    res.json(colecaoUf)
 })
 
 app.listen(8080, () => {
