@@ -3,8 +3,19 @@ import colecaoUf from './data/data.js'
 
 const app = express()
 
+const searchName = (ufName) => {
+    return colecaoUf.filter(uf => uf.nome.toLowerCase().includes(ufName.toLowerCase()))
+}
+
 app.get('/ufs', (req, res) => {
-    res.json(colecaoUf)
+    const ufName = req.query.search 
+    const result = ufName ? searchName(ufName) : colecaoUf
+
+    if (result.length > 0) {
+        res.json(result)
+    } else {    
+        res.status(404).send({ 'error': `No UF find with the name ${ufName}` })
+    }
 })
 
 app.get('/ufs/:id', (req, res) => {
@@ -26,6 +37,7 @@ app.get('/ufs/:id', (req, res) => {
         res.status(404).send({ 'error': errorMessage })
     }
 })
+
 
 
 app.listen(8080, () => {
